@@ -1,21 +1,18 @@
 'use strict'
 
-var Post = require('../models/post')
+var Post = require('../models/post');
 
 module.exports = (app) => {
 
     // add a post
     app.post('/posts', (req, res) => {
         var user = req.user;
-        var post = new Post()
+        var post = new Post();
+        var content = req.body.content.text;
+
         post.user = req.body.user
-        post.content = req.body.content
+        post.content.text = content;
 
-        post.save((err, post) => {
-            if (err) res.send(err)
-
-            res.json(post)
-        })
     })
 
     // get users and sort by last created post
@@ -53,7 +50,7 @@ module.exports = (app) => {
     app.get('/users/:userId/posts', (req, res) => {
         var userId = req.params.userId
 
-        Post.find({ 'user.id': userId }, (err, posts) => {
+        Post.find({ 'userId': userId }, (err, posts) => {
             if (err) res.send(err)
 
             res.json(posts)

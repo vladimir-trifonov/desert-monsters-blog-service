@@ -1,14 +1,21 @@
 'use strict'
 
 const mongoose = require('mongoose');
+var requiredValidationMessage = '{PATH} is required';
+
 
 var postSchema = new mongoose.Schema({
     user: {
-        id: { type: String, required: '{PATH} is required' },
-        name: { type: String, required: '{PATH} is required' },
-        avatar: { type: String, required: '{PATH} is required' },
+        id: { type: String, required: requiredValidationMessage },
+        name: { type: String, required: requiredValidationMessage },
+        avatar: { type: String, required: requiredValidationMessage },
     },
-    content: { type: String, required: '{PATH} is required' },
+
+    content: {
+        text: { type: String, required: requiredValidationMessage },
+        videoTitle: [{ type: String, required: requiredValidationMessage }]
+    },
+
     createdAt: { type: Date, default: Date.now }
 });
 
