@@ -23,39 +23,43 @@ module.exports = (app) => {
                 { '$group': { '_id': '$user.id', 'createdAt': { '$last': '$createdAt' } } },
                 { '$sort': { 'createdAt': -1 } }
             ], (err, posts) => {
-                if (err) res.send(err)
+                if (err) res.send(err);
 
-                res.json(posts)
+                res.json(posts);
             })
     })
 
     // get all posts
     app.get('/posts', (req, res) => {
         Post.find({}, (err, posts) => {
-            if (err) res.send(err)
+            if (err) res.send(err);
 
-            res.json(posts)
+            res.json(posts);
         })
     })
 
     // get a single post by id
     app.get('/posts/:id', (req, res) => {
-        Post.findById(req.params.id, function(err, posts) {
-            if (err) res.send(err)
+        Post.findById(req.params.id, (err, posts) => {
+            if (err) res.send(err);
 
-            res.json(posts)
+            res.json(posts);
         })
     })
 
     // get all post by userId
     app.get('/users/:userId/posts', (req, res) => {
-        var userId = req.params.userId
+        var userId = req.params.userId;
 
         Post.find({ 'userId': userId }, (err, posts) => {
-            if (err) res.send(err)
+            if (err) res.send(err);
 
-            res.json(posts)
+            res.json(posts);
         })
+    })
+
+    app.put('/users/:userid/posts/:postid?action=like', (req, res) => {
+
     })
 
     // delete a post
@@ -63,9 +67,9 @@ module.exports = (app) => {
         Post.remove({
             _id: req.params.id
         }, (err, post) => {
-            if (err) res.send(err)
+            if (err) res.send(err);
 
-            res.json({ message: 'Post deleted!' })
+            res.json({ message: 'Post deleted!' });
         })
     })
 }
