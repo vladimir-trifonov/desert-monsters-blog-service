@@ -1,53 +1,19 @@
 'use strict'
 
 var Post = require('../models/post');
-var YouTube = require('youtube-node');
-var utils = require('../utils/utils');
 
 module.exports = (app) => {
 
     // add a post
     app.post('/posts', (req, res) => {
-        var user = req.user;
         var post = new Post();
-        var content = req.body.content.text;
+        var user = req.body.user;
+        var text = req.body.content.text;
 
-        post.user = req.body.user
-        post.content.text = content;
+        post.user = user
+        post.content.text = text;
 
-        var youTube = new YouTube();
-
-        var idVideo = utils.youtubeLinks(content)[0];
-        var youtubeApiKey = 'AIzaSyBBHCdte-6VJ8_hP4OEmBrppYCX0gGNCFg';
-
-        if (idVideo) {
-            youTube.setKey(youtubeApiKey);
-            youTube.getById(idVideo, (error, result) => {
-                if (error) {
-                    console.log(error);
-                    return res.sendStatus(500);
-                } else {
-                    post.content.videoTitle = result.items[0].snippet.title;
-                    post.save((err, post) => {
-                        if (err) {
-                            return res.sendStatus(500);
-                        }
-
-                        res.json(post)
-                    })
-
-                }
-            });
-        } else {
-            post.save((err, post) => {
-                if (err) {
-                    return res.sendStatus(500);
-                }
-
-                res.json(post)
-            });
-        }
-
+        require('../utils/youtube')(text, post, res);
     })
 
     // get users and sort by last created post
