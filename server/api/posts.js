@@ -81,20 +81,23 @@ module.exports = (app) => {
             name: 'Stamat'
         };
 
-        var postToSend = {
-            user: {
-                id: userTest.id,
-                name: userTest.name
-            }
-        };
-
         Post.findById(req.params.postid, (err, post) => {
-            if (err) res.send(err);
+            if (err) {
+                return res.sendStatus(500);
+            }
 
-            postToSend.owner = post.user;
-            postToSend.content = post.content;
-        }).then(() => {
-            utils.sendLikeData(postToSend);
+            process.nextTick(() => {
+                utils.sendLikeData({
+                        content: post.content,
+                        owner: post.user,
+                        user: userTest
+                    }).then(() => {
+                        res.sendStatus(200);
+                    })
+                    .catch(() => {
+                        res.sendStatus(500);
+                    });
+            })
         });
     })
 }

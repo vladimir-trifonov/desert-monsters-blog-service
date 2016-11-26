@@ -26,15 +26,19 @@ function getId(url) {
 }
 
 function sendLikeData(postToSend) {
-    request({
-        url: 'http://localhost:8080/',
-        method: 'PUT',
-        json: true,
-        body: postToSend
-    }, (err, res) => {
-        if (err || res.statusCode !== 200) {
-            res.statusCode;
-        }
+    return new Promise((resolve, reject) => {
+        request({
+            url: 'http://localhost:8080/',
+            method: 'PUT',
+            json: true,
+            body: postToSend
+        }, (err, res) => {
+            if (err || res.statusCode !== 200) {
+                return reject(err);
+            }
+
+            resolve();
+        });
     });
 }
 
