@@ -7,6 +7,7 @@ module.exports = {
     development: {
         rootPath: rootPath,
         db: 'mongodb://localhost:27017/posts-db',
+        youtubeApiKey: 'AIzaSyBBHCdte-6VJ8_hP4OEmBrppYCX0gGNCFg',
         port: 3000
     },
     production: {

@@ -3,10 +3,13 @@
 var YouTube = require('youtube-node');
 var utils = require('./utils');
 
+var env = process.env.NODE_ENV || 'development';
+var config = require('../config/config')[env];
+
 module.exports = (text, post, res) => {
     var youTube = new YouTube();
     var videoId = utils.youtubeLinks(text)[0];
-    var youtubeApiKey = 'AIzaSyBBHCdte-6VJ8_hP4OEmBrppYCX0gGNCFg';
+    var youtubeApiKey = config.youtubeApiKey;
 
     if (videoId) {
         youTube.setKey(youtubeApiKey);
