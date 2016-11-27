@@ -1,26 +1,30 @@
 {
-    "name": "desert-monsters-blog-service",
-    "version": "1.0.0",
-    "description": "",
-    "main": "app.js",
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/vladimir-trifonov/desert-monsters-blog-service.git"
-    },
-    "author": "",
-    "license": "ISC",
-    "bugs": {
-        "url": "https://github.com/vladimir-trifonov/desert-monsters-blog-service/issues"
-    },
-    "homepage": "https://github.com/vladimir-trifonov/desert-monsters-blog-service#readme",
-    "dependencies": {
-        "body-parser": "^1.15.2",
-        "express": "^4.14.0",
-        "mongoose": "^4.6.8",
-        "request": "^2.79.0",
-        "youtube-node": "^1.3.0"
-    }
+  "name": "desert-monsters-blog-service",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vladimir-trifonov/desert-monsters-blog-service.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vladimir-trifonov/desert-monsters-blog-service/issues"
+  },
+  "homepage": "https://github.com/vladimir-trifonov/desert-monsters-blog-service#readme",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "cors": "^2.8.1",
+    "express": "^4.14.0",
+    "express-jwt": "^5.1.0",
+    "mongoose": "^4.6.8",
+    "request": "^2.79.0",
+    "thalassa": "git+https://8e40584b634875fd636ac36b96f1c9abfed3c332:x-oauth-basic@github.com/vladimir-trifonov/thalassa.git",
+    "youtube-node": "^1.3.0"
+  }
 }

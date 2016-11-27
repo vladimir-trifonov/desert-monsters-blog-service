@@ -7,14 +7,14 @@ module.exports = (app) => {
 
     //add a post
     app.post('/posts', (req, res) => {
-        var post = new Post();
-        var user = req.body.user;
-        var text = req.body.content.text;
+        var post = new Post({
+            user: req.user,
+            content: {
+                text: req.body.text
+            }
+        });
 
-        post.user = user
-        post.content.text = text;
-
-        require('../utils/youtube')(text, post, res);
+        require('../utils/youtube')(req.body.text, post, res);
     })
 
     // get all posts
@@ -76,11 +76,6 @@ module.exports = (app) => {
             return res.status(404);
         }
 
-        var userTest = {
-            id: '545621',
-            name: 'Stamat'
-        };
-
         Post.findById(req.params.postid, (err, post) => {
             if (err) {
                 return res.sendStatus(500);
@@ -90,7 +85,7 @@ module.exports = (app) => {
                 utils.sendLikeData({
                         content: post.content,
                         owner: post.user,
-                        user: userTest
+                        user: req.user
                     }).then(() => {
                         res.sendStatus(200);
                     })
