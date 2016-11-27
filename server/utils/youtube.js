@@ -16,7 +16,8 @@ module.exports = (text, post, res) => {
         youTube.getById(videoId, (error, result) => {
             if (error) return res.sendStatus(500);
 
-            post.content.videoTitle = result.items[0].snippet.title;
+            post.content.extra = result.items[0].snippet.title;
+            post.content.type = 'blog:youtube';
             post.save((err, post) => {
                 if (err) return res.sendStatus(500);
 

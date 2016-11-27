@@ -10,7 +10,8 @@ module.exports = (app) => {
         var post = new Post({
             user: req.user,
             content: {
-                text: req.body.text
+                text: req.body.text,
+                type: 'blog:text'
             }
         });
 
@@ -19,7 +20,7 @@ module.exports = (app) => {
 
     // get all posts
     app.get('/posts', (req, res) => {
-        Post.find({}, (err, posts) => {
+        Post.find().sort({ createdAt: -1 }).exec((err, posts) => {
             if (err) res.send(err);
 
             res.json({
@@ -96,6 +97,7 @@ module.exports = (app) => {
             process.nextTick(() => {
                 utils.sendLikeData({
                     content: post.content,
+                    type: post.type,
                     owner: post.user,
                     user: req.user
                 }).then(() => {

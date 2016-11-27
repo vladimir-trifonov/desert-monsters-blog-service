@@ -12,8 +12,9 @@ var postSchema = new mongoose.Schema({
     },
 
     content: {
+        type: { type: String, required: requiredValidationMessage },
         text: { type: String, required: requiredValidationMessage },
-        videoTitle: [{ type: String, required: requiredValidationMessage }]
+        extra: [{ type: String, required: requiredValidationMessage }]
     },
 
     createdAt: { type: Date, default: Date.now }
