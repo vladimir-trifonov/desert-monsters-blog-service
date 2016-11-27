@@ -24,7 +24,7 @@
     "express-jwt": "^5.1.0",
     "mongoose": "^4.6.8",
     "request": "^2.79.0",
-    "thalassa": "https://@github.com/vladimir-trifonov/thalassa.git",
+    "thalassa": "https://github.com/vladimir-trifonov/thalassa.git",
     "youtube-node": "^1.3.0"
   }
 }
