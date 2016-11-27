@@ -20,14 +20,20 @@ module.exports = (text, post, res) => {
             post.save((err, post) => {
                 if (err) return res.sendStatus(500);
 
-                res.json(post);
+                res.json({
+                    ok: true,
+                    post: post
+                });
             });
         });
     } else {
         post.save((err, post) => {
             if (err) return res.sendStatus(500);
 
-            res.json(post);
+            res.json({
+                ok: true,
+                post: post
+            });
         });
     }
 }

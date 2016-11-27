@@ -22,7 +22,10 @@ module.exports = (app) => {
         Post.find({}, (err, posts) => {
             if (err) res.send(err);
 
-            res.json(posts);
+            res.json({
+                ok: true,
+                posts: posts
+            });
         })
     })
 
@@ -35,7 +38,10 @@ module.exports = (app) => {
             ], (err, posts) => {
                 if (err) res.send(err);
 
-                res.json(posts);
+                res.json({
+                    ok: true,
+                    posts: posts
+                });
             })
     })
 
@@ -44,7 +50,10 @@ module.exports = (app) => {
         Post.findById(req.params.id, (err, post) => {
             if (err) res.send(err);
 
-            res.json(post);
+            res.json({
+                ok: true,
+                post: post
+            });
         })
     })
 
@@ -55,7 +64,7 @@ module.exports = (app) => {
         }, (err, post) => {
             if (err) res.send(err);
 
-            res.json({ message: 'Post deleted!' });
+            res.json({ ok: true, message: 'Post deleted!' });
         })
     })
 
@@ -66,14 +75,17 @@ module.exports = (app) => {
         Post.find({ 'user.id': userId }, (err, posts) => {
             if (err) res.send(err);
 
-            res.json(posts);
+            res.json({
+                ok: true,
+                posts: posts
+            });
         });
     })
 
     app.put('/users/:userid/posts/:postid', (req, res) => {
         var action = req.param('action');
         if (!action || action !== 'like') {
-            return res.status(404);
+            return res.sendStatus(404);
         }
 
         Post.findById(req.params.postid, (err, post) => {
@@ -83,12 +95,14 @@ module.exports = (app) => {
 
             process.nextTick(() => {
                 utils.sendLikeData({
-                        content: post.content,
-                        owner: post.user,
-                        user: req.user
-                    }).then(() => {
-                        res.sendStatus(200);
-                    })
+                    content: post.content,
+                    owner: post.user,
+                    user: req.user
+                }).then(() => {
+                    res.send({
+                        ok: true
+                    });
+                })
                     .catch(() => {
                         res.sendStatus(500);
                     });
