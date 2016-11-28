@@ -70,10 +70,10 @@ module.exports = (app) => {
     })
 
     // get all post by userId
-    app.get('/users/:userid/posts').sort({ createdAt: -1 }).exec((req, res) => {
+    app.get('/users/:userid/posts', (req, res) => {
         var userId = req.params.userid;
 
-        Post.find({ 'user.id': userId }, (err, posts) => {
+        Post.find({ 'user.id': userId }).sort({ createdAt: -1 }).exec((err, posts) => {
             if (err) res.send(err);
 
             res.json({
