@@ -119,8 +119,7 @@ module.exports = (app) => {
                 utils.sendLikeData({
                     content: post.content,
                     type: post.type,
-                    owner: post.user,
-                    user: req.user
+                    user: post.user
                 }).then(() => {
                     res.send({
                         ok: true
