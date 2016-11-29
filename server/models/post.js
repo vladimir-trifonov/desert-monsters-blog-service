@@ -8,22 +8,16 @@ var postSchema = new mongoose.Schema({
     user: {
         id: { type: String, required: requiredValidationMessage },
         name: { type: String, required: requiredValidationMessage },
-        avatar: { type: String, required: requiredValidationMessage },
+        avatar: { type: String },
     },
 
     content: {
         type: { type: String, required: requiredValidationMessage },
         text: { type: String, required: requiredValidationMessage },
-        extra: [{ type: String, required: requiredValidationMessage }]
-    },
-
-    createdAt: { type: Date, default: Date.now }
-});
-
-postSchema.pre('save', (next) => {
-    var now = new Date().now;
-    this.createdAt = now;
-    next();
+        extra: [{ type: String }]
+    }
+}, {
+    timestamps: true
 });
 
 module.exports = mongoose.model('Post', postSchema);

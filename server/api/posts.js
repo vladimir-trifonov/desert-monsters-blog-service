@@ -34,8 +34,21 @@ module.exports = (app) => {
     app.get('/posts/last', (req, res) => {
         Post.aggregate(
             [
-                { '$group': { '_id': '$user.id', 'createdAt': { '$last': '$createdAt' } } },
-                { '$sort': { 'createdAt': -1 } }
+                {
+                    $group: {
+                        _id: '$user.id',
+                        content: {
+                            $last: '$content'
+                        },
+                        user: {
+                            $last: '$user'
+                        },
+                        createdAt: {
+                            $last: '$createdAt'
+                        }
+                    }
+                },
+                { $sort: { createdAt: -1 } }
             ], (err, posts) => {
                 if (err) res.send(err);
 
