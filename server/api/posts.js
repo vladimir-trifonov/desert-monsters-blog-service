@@ -21,7 +21,9 @@ module.exports = (app) => {
     // get all posts
     app.get('/posts', (req, res) => {
         Post.find().sort({ createdAt: -1 }).exec((err, posts) => {
-            if (err) res.send(err);
+            if (err) {
+                return res.send(err);
+            }
 
             res.json({
                 ok: true,
@@ -62,7 +64,9 @@ module.exports = (app) => {
     // get a single post by id
     app.get('/posts/:id', (req, res) => {
         Post.findById(req.params.id, (err, post) => {
-            if (err) res.send(err);
+            if (err) {
+                return res.send(err);
+            }
 
             res.json({
                 ok: true,
@@ -76,7 +80,9 @@ module.exports = (app) => {
         Post.remove({
             _id: req.params.id
         }, (err, post) => {
-            if (err) res.send(err);
+            if (err) {
+                return res.send(err);
+            }
 
             res.json({ ok: true, message: 'Post deleted!' });
         })
@@ -87,7 +93,9 @@ module.exports = (app) => {
         var userId = req.params.userid;
 
         Post.find({ 'user.id': userId }).sort({ createdAt: -1 }).exec((err, posts) => {
-            if (err) res.send(err);
+            if (err) {
+                return res.send(err);
+            }
 
             res.json({
                 ok: true,

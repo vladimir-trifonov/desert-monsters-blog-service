@@ -8,7 +8,7 @@ const jwt = require('express-jwt');
 module.exports = (config, app) => {
     app.set('secret', config.secret);
 
-    app.use(jwt({ secret: app.set('secret') }));
+    app.use(jwt({ secret: app.get('secret') }));
     app.use(cors());
 
     app.use(bodyParser.json());
