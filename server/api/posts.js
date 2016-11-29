@@ -19,7 +19,10 @@ module.exports = (app) => {
         ytUtil(req.body.text)
             .then(function (youtubeTxt) {
                 return new Promise(function (resolve, reject) {
-                    youtubeTxt && (post.content.extra = youtubeTxt) && (post.content.type = 'blog:youtube');
+                    if(typeof youtubeTxt !== 'undefined') {
+                        post.content.extra = youtubeTxt;
+                        post.content.type = 'blog:youtube';
+                    }
 
                     post.save((err, saved) => {
                         if (err) {
@@ -28,7 +31,7 @@ module.exports = (app) => {
 
                         res.send({
                             ok: true,
-                            saved: saved
+                            post: saved
                         });
 
                         process.nextTick(function () {
