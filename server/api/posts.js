@@ -41,7 +41,7 @@ module.exports = (app) => {
                 utils.exportToTheWall({
                     content: post.content,
                     user: post.user
-                })
+                }, req.headers.authorization)
                 .catch(console.log);
             })
             .catch(function (err) {

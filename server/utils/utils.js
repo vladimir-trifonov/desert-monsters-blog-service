@@ -43,18 +43,21 @@ function sendLikeData(postToSend) {
     });
 }
 
-function exportToTheWall(postToSend) {
+function exportToTheWall(postToSend, authHeader) {
     return new Promise((resolve, reject) => {
         serviceDiscovery('desert-monsters-wall-service')
             .then(function (url) {
                 request({
-                    url: url + '/posts',
+                    url: 'http://' + url + '/posts',
                     method: 'POST',
                     json: true,
-                    body: postToSend
+                    body: postToSend,
+                    headers: {
+                        authorization: authHeader
+                    }
                 }, (err, res) => {
                     if (err || res.statusCode !== 200) {
-                        return reject(err);
+                        return reject(err || res.statusMessage);
                     }
 
                     resolve();
