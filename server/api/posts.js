@@ -2,6 +2,7 @@
 
 var Post = require('../models/post');
 var utils = require('../utils/utils');
+var ytUtil = require('../utils/youtube');
 
 module.exports = (app) => {
 
@@ -15,7 +16,38 @@ module.exports = (app) => {
             }
         });
 
-        require('../utils/youtube')(req.body.text, post, res);
+        ytUtil(req.body.text)
+            .then(function (youtubeTxt) {
+                return new Promise(function (resolve, reject) {
+                    youtubeTxt && (post.content.extra = youtubeTxt) && (post.content.type = 'blog:youtube');
+
+                    post.save((err, saved) => {
+                        if (err) {
+                            return reject(err);
+                        }
+
+                        res.send({
+                            ok: true,
+                            saved: saved
+                        });
+
+                        process.nextTick(function () {
+                            resolve(saved);
+                        });
+                    });
+                });
+            })
+            .then(function (post) {
+                utils.exportToTheWall({
+                    content: post.content,
+                    user: post.user
+                })
+                .catch(console.log);
+            })
+            .catch(function (err) {
+                console.log(err);
+                res.sendStatus(500)
+            });
     })
 
     // get all posts
@@ -118,13 +150,13 @@ module.exports = (app) => {
             process.nextTick(() => {
                 utils.sendLikeData({
                     content: post.content,
-                    type: post.type,
                     user: post.user
-                }).then(() => {
-                    res.send({
-                        ok: true
-                    });
                 })
+                    .then(() => {
+                        res.send({
+                            ok: true
+                        });
+                    })
                     .catch(() => {
                         res.sendStatus(500);
                     });

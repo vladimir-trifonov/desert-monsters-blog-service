@@ -2,6 +2,7 @@
 
 var request = require('request');
 const bodyParser = require('body-parser');
+var serviceDiscovery = require('./discovery.service');
 
 function youtubeLinks(text) {
     var results = [];
@@ -42,8 +43,29 @@ function sendLikeData(postToSend) {
     });
 }
 
+function exportToTheWall(postToSend) {
+    return new Promise((resolve, reject) => {
+        serviceDiscovery('desert-monsters-wall-service')
+            .then(function (url) {
+                request({
+                    url: url + '/posts',
+                    method: 'POST',
+                    json: true,
+                    body: postToSend
+                }, (err, res) => {
+                    if (err || res.statusCode !== 200) {
+                        return reject(err);
+                    }
+
+                    resolve();
+                });
+            });
+    });
+}
+
 module.exports = {
     youtubeLinks,
     getId,
-    sendLikeData
+    sendLikeData,
+    exportToTheWall
 }
